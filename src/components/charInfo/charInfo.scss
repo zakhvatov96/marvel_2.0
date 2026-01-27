@@ -25,6 +25,9 @@
 			font-size: 14px;
 			color: #000;
 		}
+		.skeleton {
+			margin-top: 33px;
+		}
 	}
 	&__wrapper {
 		display: grid;
@@ -46,5 +49,11 @@
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             margin-top: 10px;
 		}
+	}
+	&__select {
+		font-weight: 700;
+		font-size: 18px;
+		color: #000;
+		text-align: center;
 	}
 }

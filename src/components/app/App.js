@@ -11,17 +11,17 @@ function App() {
   return (
       <div className="app">
         <AppHeader />
-        <AppBanner />
-        <SingleComic />
+        {/* <AppBanner />
+        <SingleComic /> */}
         {/* <ComicsList /> */}
-        {/* <main>
+        <main>
         <RandomChar />
         <div className="char__content">
           <CharList />
           <CharInfo />
         </div>
         </main>
-        <img src={vision} alt="" className="bg-decoration" /> */}
+        <img src={vision} alt="" className="bg-decoration" />
       </div>
   );
 }

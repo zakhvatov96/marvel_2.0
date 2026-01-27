@@ -1,3 +1,4 @@
+import Skeleton from '../skeleton/skeleton';
 import abyss from '../../resources/img/abyss.jpg';
 
 import './charInfo.scss';
@@ -5,7 +6,8 @@ import './charInfo.scss';
 const CharInfo = () => {
 	return (
 		<div className="char__info">
-			<div className="char__wrapper">
+			<Skeleton />
+			{/* <div className="char__wrapper">
 				<img src={abyss} alt="abyss" className="char__info-img" />
 				<div className="char__info-buttons">
 					<h2 className="char__info-title">ABYSS</h2>
@@ -26,7 +28,7 @@ const CharInfo = () => {
 				<li className="char__comics-item">Vengeance (2011) #4</li>
 				<li className="char__comics-item">Avengers (1963) #1</li>
 				<li className="char__comics-item">Avengers (1996) #1</li>
-			</ul>
+			</ul> */}
 		</div>
 	);
 }
