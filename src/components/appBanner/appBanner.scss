@@ -5,6 +5,7 @@
 	grid-template-columns: 280px 662px 158px;
 	background: $dark;
 	margin-top: 50px;
+	padding-left: 25px;
 	&__text {
 		justify-self: start;
 		align-self: center;
@@ -13,10 +14,4 @@
 		color: #fff;
 		width: 235px;
 	}
-	&__img {
-		&-heroes {
-			margin-left: 45px;
-		}
-	}
-
 }
