@@ -1,0 +1,33 @@
+@import '../../style/variables.scss';
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	&__title {
+		font-weight: 700;
+		font-size: 28px;
+		cursor: pointer;
+		span {
+			color: $main-color;
+		}
+	}
+	&__nav {
+		width: 201px;
+		height: 32px;
+		font-weight: 700;
+		font-size: 24px;
+		color: #000;
+		ul {
+			display: flex;
+			justify-content: space-between;
+		}
+		&-item {
+			&-active {
+				color: $main-color;
+			}
+			&:hover {
+				color: $main-color;
+			}
+		}
+	}
+}
