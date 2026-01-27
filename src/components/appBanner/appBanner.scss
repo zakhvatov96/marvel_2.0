@@ -1,0 +1,24 @@
+@import '../../style/variables.scss';
+
+.banner {
+	display: grid;
+	grid-template-columns: 280px 662px 158px;
+	background: $dark;
+	&__text {
+		justify-self: start;
+		align-self: center;
+		font-weight: 700;
+		font-size: 24px;
+		color: #fff;
+		width: 235px;
+	}
+	&__img {
+		&-heroes {
+			margin-left: 45px;
+		}
+		&-avengers {
+
+		}
+	}
+
+}
