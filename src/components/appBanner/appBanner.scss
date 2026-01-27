@@ -4,6 +4,7 @@
 	display: grid;
 	grid-template-columns: 280px 662px 158px;
 	background: $dark;
+	margin-top: 50px;
 	&__text {
 		justify-self: start;
 		align-self: center;
