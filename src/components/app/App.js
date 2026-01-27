@@ -1,6 +1,8 @@
 import AppBanner from '../appBanner/appBanner';
 import AppHeader from '../appHeader/appHeader';
 import RandomChar from '../randomChar/randomChar';
+import CharList from '../charList/charList';
+import CharInfo from '../charInfo/charInfo';
 
 function App() {
   return (
@@ -8,6 +10,10 @@ function App() {
         <AppHeader />
         <main>
         <RandomChar />
+        <div className="char__content">
+          <CharList />
+          <CharInfo />
+        </div>
         </main>
       </div>
   );
