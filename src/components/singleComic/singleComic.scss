@@ -1,0 +1,53 @@
+@import '../../style/variables.scss';
+
+.single {
+	margin-top: 50px;
+	&__grid {
+		display: grid;
+		grid-template-columns: 293px 550px auto;
+		column-gap: 50px;
+	}
+	&__img {
+		width: 100%;
+		object-fit: cover;
+	}
+	&__title {
+		font-weight: 700;
+		font-size: 22px;
+		color: #000;
+	}
+	&__descr {
+		margin-top: 28px;
+		font-weight: 400;
+		font-size: 18px;
+		color: #000;
+	}
+	&__pages {
+		margin-top: 40px;
+		font-weight: 400;
+		font-size: 18px;
+		color: #000;
+	}
+	&__lang {
+		margin-top: 28px;
+		font-weight: 400;
+		font-size: 18px;
+		color: #000;
+	}
+	&__price {
+		margin-top: 28px;
+		font-weight: 700;
+		font-size: 24px;
+		color: $main-color;
+	}
+	&__back {
+		display: inline-block;
+		justify-self: end;
+		font-weight: 700;
+		font-size: 18px;
+		color: #000;
+		&:hover {
+			color: $main-color;
+		}
+	}
+}

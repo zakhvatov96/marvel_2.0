@@ -1,5 +1,6 @@
 import AppBanner from '../appBanner/appBanner';
 import AppHeader from '../appHeader/appHeader';
+import SingleComic from '../singleComic/singleComic';
 import ComicsList from '../comicsList/comicsList';
 import RandomChar from '../randomChar/randomChar';
 import CharList from '../charList/charList';
@@ -11,7 +12,8 @@ function App() {
       <div className="app">
         <AppHeader />
         <AppBanner />
-        <ComicsList />
+        <SingleComic />
+        {/* <ComicsList /> */}
         {/* <main>
         <RandomChar />
         <div className="char__content">
