@@ -15,6 +15,12 @@
 			width: 180px;
 			height: 180px;
 		}
+		&-info {
+			display: grid;
+			grid-template-rows: minmax(29px, auto) 90px 38px;
+			row-gap: 10px;
+			padding-top: 3px;
+		}
 		&-title {
 			font-weight: 700;
 			font-size: 22px;
@@ -22,13 +28,11 @@
 		}
 
 		&-text {
-			margin-top: 13px;
 			font-weight: 400;
 			font-size: 14px;
 			color: #000;
 		}
 		&-buttons {
-			margin-top: 13px;
 			width: 232px;
 			display: flex;
 			justify-content: space-between;
