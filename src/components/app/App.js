@@ -1,29 +1,35 @@
-import AppBanner from '../appBanner/appBanner';
+import { Component } from 'react';
 import AppHeader from '../appHeader/appHeader';
-import SingleComic from '../singleComic/singleComic';
-import ComicsList from '../comicsList/comicsList';
 import RandomChar from '../randomChar/randomChar';
 import CharList from '../charList/charList';
 import CharInfo from '../charInfo/charInfo';
 import vision from '../../resources/img/vision.png';
 
-function App() {
-  return (
-      <div className="app">
-        <AppHeader />
-        {/* <AppBanner />
-        <SingleComic /> */}
-        {/* <ComicsList /> */}
-        <main>
-        <RandomChar />
-        <div className="char__content">
-          <CharList />
-          <CharInfo />
+class App extends Component {
+    state = {
+      selectedChar: null
+    }
+
+    onCharSelected = (id) => {
+      this.setState({
+        selectedChar: id
+      })
+    }
+    render() {
+      return (
+        <div className="app">
+          <AppHeader />
+          <main>
+          <RandomChar />
+          <div className="char__content">
+            <CharList onCharSelected={this.onCharSelected} />
+            <CharInfo charId={this.state.selectedChar} />
+          </div>
+          </main>
+          <img src={vision} alt="" className="bg-decoration" />
         </div>
-        </main>
-        <img src={vision} alt="" className="bg-decoration" />
-      </div>
   );
+    }
 }
 
 export default App;

@@ -36,7 +36,9 @@ class CharList extends Component {
 
 	renderItems = (arr) => {
 		const elements = arr.map(({name, thumbnail, id}) => {
-			return (<li key={id} className="char__grid-item">
+			return (<li key={id} 
+						className="char__grid-item"
+						onClick={() => {this.props.onCharSelected(id)}}>
 						<img src={thumbnail} alt="abyss" className="char__grid-item-img" />
 						<div className="char__grid-item-name">{name}</div>
 					</li>)
