@@ -2,7 +2,7 @@
 
 class MarvelService {
 	_apiBase = 'https://marvel-server-zeta.vercel.app/';
-	_apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
+	_apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1d';
 
 	getResource = async(url) => {
 		let res = await fetch(url);
@@ -31,7 +31,8 @@ class MarvelService {
 			description: descr ? descr : 'No description for this character',
 			thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
 			homepage: char.urls[0].url,
-			wiki: char.urls[1].url
+			wiki: char.urls[1].url,
+			id: char.id
 		}
 	}
 }
