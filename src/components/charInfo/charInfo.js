@@ -1,9 +1,9 @@
 import { Component } from 'react';
+
 import MarvelService from '../../services/MarvelService';
 import Skeleton from '../skeleton/skeleton';
 import ErrorMessage from '../errorMessage/errorMessage';
 import Spinner from '../spinner/Spinner';
-import abyss from '../../resources/img/abyss.jpg';
 
 import './charInfo.scss';
 

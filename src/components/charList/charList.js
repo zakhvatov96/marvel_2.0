@@ -17,7 +17,7 @@ class CharList extends Component {
 	}
 
 	marvelService = new MarvelService();
-
+	
 	componentDidMount() {
 		this.updateChar();
 		window.addEventListener('scroll', this.onScrollLoad);
@@ -26,6 +26,8 @@ class CharList extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('scroll', this.onScrollLoad);
 	}
+
+	
 
 	onScrollLoad = () => {
 		if(document.documentElement.scrollTop + document.documentElement.clientHeight + 1 >= document.documentElement.scrollHeight) {
@@ -49,6 +51,7 @@ class CharList extends Component {
 			 offset: offset+9,
 			 charEnded: ended
 			}));
+		
 	}
 
 	onError = () => {
@@ -63,11 +66,38 @@ class CharList extends Component {
 				.catch(this.onError);
 	}
 
+	itemRefs = [];
+
+	setItemRefs = (elem) => {
+		this.itemRefs.push(elem);
+	}
+
+	onFocusElement = (id) => {
+		this.itemRefs.forEach((item) => {
+			item.classList.remove('char__content-item-selected');
+		});
+		this.itemRefs[id].classList.add('char__content-item-selected');
+		this.itemRefs[id].focus();
+	}
+
+	
+
 	renderItems = (arr) => {
 		const elements = arr.map(({name, thumbnail, id}) => {
 			return (<li key={id} 
 						className="char__grid-item"
-						onClick={() => {this.props.onCharSelected(id)}}>
+						ref={this.setItemRefs}
+						tabIndex={0}
+						onClick={() => {
+							this.props.onCharSelected(id);
+							this.onFocusElement(id-1)}}
+						onKeyUp={(e) => {
+							if(e.key === ' ' || e.key === 'Enter') {
+								e.preventDefault();
+								this.props.onCharSelected(id);
+								this.onFocusElement(id-1);							
+							}
+						}}>
 						<img src={thumbnail} alt={name} className="char__grid-item-img" />
 						<div className="char__grid-item-name">{name}</div>
 					</li>)
