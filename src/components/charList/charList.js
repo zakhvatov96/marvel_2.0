@@ -13,14 +13,14 @@ class CharList extends Component {
 		error: false,
 		newItemLoading: false,
 		offset: 0,
-		charEnded: false
+		charEnded: false,
 	}
 
 	marvelService = new MarvelService();
 	
 	componentDidMount() {
-		this.updateChar();
 		window.addEventListener('scroll', this.onScrollLoad);
+		this.updateChar();
 	}
 
 	componentWillUnmount() {
@@ -30,6 +30,10 @@ class CharList extends Component {
 	
 
 	onScrollLoad = () => {
+		if(this.state.newItemLoading) return;
+		if(this.state.charEnded) {
+			window.removeEventListener('scroll', this.onScrollLoad);
+		}
 		if(document.documentElement.scrollTop + document.documentElement.clientHeight+1 > document.documentElement.scrollHeight) {
 			this.updateChar(this.state.offset)
 		}
