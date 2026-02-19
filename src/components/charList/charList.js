@@ -30,9 +30,10 @@ class CharList extends Component {
 	
 
 	onScrollLoad = () => {
-		if(document.documentElement.scrollTop + document.documentElement.clientHeight + 1 >= document.documentElement.scrollHeight) {
+		if(document.documentElement.scrollTop + document.documentElement.clientHeight+1 > document.documentElement.scrollHeight) {
 			this.updateChar(this.state.offset)
 		}
+
 	}
 	
 	onItemsLoading = () => {
@@ -44,6 +45,7 @@ class CharList extends Component {
 		if (newChar.length < 9) {
 			ended = true;
 		}
+		console.log(this.state.offset)
 		this.setState(({char, offset}) => (
 			{char: [...char, ...newChar], 
 			 loading: false, 
@@ -91,7 +93,7 @@ class CharList extends Component {
 						onClick={() => {
 							this.props.onCharSelected(id);
 							this.onFocusElement(id-1)}}
-						onKeyUp={(e) => {
+						onKeyDown={(e) => {
 							if(e.key === ' ' || e.key === 'Enter') {
 								e.preventDefault();
 								this.props.onCharSelected(id);
