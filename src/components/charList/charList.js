@@ -1,107 +1,102 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/errorMessage';
 
 import './charList.scss';
 
-class CharList extends Component {
+const CharList = (props) => {
 
-	state = {
-		char: [],
-		loading: true,
-		error: false,
-		newItemLoading: false,
-		offset: 0,
-		charEnded: false,
-	}
+	const [char, setChar] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+	const [newItemLoading, setNewItemLoading] = useState(false);
+	const [offset, setOffset] = useState(0);
+	const [charEnded, setCharEnded] = useState(false);
 
-	marvelService = new MarvelService();
+
+	const marvelService = new MarvelService();
+
+	useEffect(() => {
+		window.addEventListener('scroll', onScrollLoad);
+		updateChar();
+		return () => {
+			window.removeEventListener('scroll', onScrollLoad);
+		}
+	}, []);
+
+	const newItemsBtn = useRef();
 	
-	componentDidMount() {
-		window.addEventListener('scroll', this.onScrollLoad);
-		this.updateChar();
-	}
 
-	componentWillUnmount() {
-		window.removeEventListener('scroll', this.onScrollLoad);
-	}
 
-	
-
-	onScrollLoad = () => {
-		if(this.state.newItemLoading) return;
-		if(this.state.charEnded) {
-			window.removeEventListener('scroll', this.onScrollLoad);
+	const onScrollLoad = () => {
+		if(newItemLoading) return;
+		if(charEnded) {
+			window.removeEventListener('scroll', onScrollLoad);
 		}
 		if(document.documentElement.scrollTop + document.documentElement.clientHeight+1 > document.documentElement.scrollHeight) {
-			this.updateChar(this.state.offset)
+			newItemsBtn.current.click();
 		}
 
 	}
 	
-	onItemsLoading = () => {
-		this.setState({newItemLoading: true});
+	const onItemsLoading = () => {
+		setNewItemLoading(true);
 	}
 
-	onCharLoaded = (newChar) => {
+	const onCharLoaded = (newChar) => {
 		let ended = false;
 		if (newChar.length < 9) {
 			ended = true;
 		}
-		console.log(this.state.offset)
-		this.setState(({char, offset}) => (
-			{char: [...char, ...newChar], 
-			 loading: false, 
-			 newItemLoading: false,
-			 offset: offset+9,
-			 charEnded: ended
-			}));
-		
+
+		setChar(char => [...char, ...newChar]);
+		setLoading(loading => false);
+		setNewItemLoading(newItemLoading => false);
+		setOffset(offset => offset+9);
+		setCharEnded(charEnded => ended);		
 	}
 
-	onError = () => {
-		this.setState({error: true, loading: false});
+	const onError = () => {
+		setError(true);
+		setLoading(loading => false);
 	}
 
-	updateChar = (offset) => {
-		this.onItemsLoading();
-		this.marvelService
+	function updateChar (offset) {
+		onItemsLoading();
+		marvelService
 			.getAllCharacters(offset)
-				.then(this.onCharLoaded)
-				.catch(this.onError);
+				.then(onCharLoaded)
+				.catch(onError);
 	}
 
-	itemRefs = [];
+	const itemRefs = useRef([]);
 
-	setItemRefs = (elem) => {
-		this.itemRefs.push(elem);
-	}
 
-	onFocusElement = (id) => {
-		this.itemRefs.forEach((item) => {
+	const onFocusElement = (id) => {
+		itemRefs.current.forEach((item) => {
 			item.classList.remove('char__content-item-selected');
 		});
-		this.itemRefs[id].classList.add('char__content-item-selected');
-		this.itemRefs[id].focus();
+		itemRefs.current[id].classList.add('char__content-item-selected');
+		itemRefs.current[id].focus();
 	}
 
 	
 
-	renderItems = (arr) => {
+	function renderItems(arr) {
 		const elements = arr.map(({name, thumbnail, id}) => {
 			return (<li key={id} 
 						className="char__grid-item"
-						ref={this.setItemRefs}
+						ref={el => itemRefs.current[id-1] = el}
 						tabIndex={0}
 						onClick={() => {
-							this.props.onCharSelected(id);
-							this.onFocusElement(id-1)}}
+							props.onCharSelected(id);
+							onFocusElement(id-1)}}
 						onKeyDown={(e) => {
 							if(e.key === ' ' || e.key === 'Enter') {
 								e.preventDefault();
-								this.props.onCharSelected(id);
-								this.onFocusElement(id-1);							
+								props.onCharSelected(id);
+								onFocusElement(id-1);							
 							}
 						}}>
 						<img src={thumbnail} alt={name} className="char__grid-item-img" />
@@ -116,25 +111,24 @@ class CharList extends Component {
 		)
 	}
 
-	render() {
-		const {char, loading, error, newItemLoading, offset, charEnded} = this.state;
-		const items = this.renderItems(char);
-		const errorMessage = error ? <ErrorMessage /> : null;
-		const spinner = loading ? <Spinner /> : null;
-		const content = !(loading || error) ? items : null;
-		
-		return (
-			<div className="char__list">
-					{errorMessage}
-					{spinner}
-					{content}
-				<button className="button button__long button__main"
-						onClick={() => this.updateChar(offset)}
-						disabled={newItemLoading}
-						style={{'display': charEnded ? 'none' : 'block'}}><div className="inner">LOAD MORE</div></button>
-			</div>
-		);
-	}
+	const items = renderItems(char);
+	const errorMessage = error ? <ErrorMessage /> : null;
+	const spinner = loading ? <Spinner /> : null;
+	const content = !(loading || error) ? items : null;
+	
+	return (
+		<div className="char__list">
+				{errorMessage}
+				{spinner}
+				{content}
+			<button className="button button__long button__main"
+					onClick={() => updateChar(offset)}
+					ref={newItemsBtn}
+					disabled={newItemLoading}
+					style={{'display': charEnded ? 'none' : 'block'}}><div className="inner">LOAD MORE</div></button>
+		</div>
+	);
+
 };
 
 export default CharList;
