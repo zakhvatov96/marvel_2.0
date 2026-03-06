@@ -1,31 +1,27 @@
+import useHttp from "../hooks/useHttp";
+
+const useMarvelService = () => {
+	const {loading, error, request, clearError} = useHttp();
+	
+	const _apiBase = 'https://marvel-server-zeta.vercel.app/';
+	const _apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
+	const _baseOffset = 0;
+
+	
 
 
-class MarvelService {
-	_apiBase = 'https://marvel-server-zeta.vercel.app/';
-	_apiKey = 'apikey=d4eecb0c66dedbfae4eab45d312fc1df';
-	_baseOffset = 0;
 
-	getResource = async(url) => {
-		let res = await fetch(url);
-
-		if(!res.ok) {
-			throw new Error(`Could not fetch ${url}, status: ${res.status}`)
-		}
-
-		return await res.json();
+	const getAllCharacters = async (offset = _baseOffset) => {
+		const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
+		return res.data.results.map(_tranformData);
 	}
 
-	getAllCharacters = async (offset = this._baseOffset) => {
-		const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=${offset}&${this._apiKey}`);
-		return res.data.results.map(this._tranformData);
+	const getCharacter = async (id) => {
+		const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
+		return _tranformData(res.data.results[0]);
 	}
 
-	getCharacter = async (id) => {
-		const res = await this.getResource(`${this._apiBase}characters/${id}?${this._apiKey}`);
-		return this._tranformData(res.data.results[0]);
-	}
-
-	_tranformData = (char) => {
+	const _tranformData = (char) => {
 		const descr = char.description.length > 190 ? char.description.slice(1, 190) + '...' : char.description;
 		return {
 			name: char.name,
@@ -37,6 +33,8 @@ class MarvelService {
 			comics: char.comics.items
 		}
 	}
+
+	return {loading, error, clearError, getAllCharacters, getCharacter};
 }
 
-export default MarvelService;
+export default useMarvelService;
