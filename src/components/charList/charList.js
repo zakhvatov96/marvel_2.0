@@ -70,8 +70,8 @@ const CharList = (props) => {
 	
 
 	function renderItems(arr) {
-		const elements = arr.map(({name, thumbnail, id}) => {
-			return (<li key={id} 
+		const elements = arr.map(({name, thumbnail, id}, i) => {
+			return (<li key={i} 
 						className="char__grid-item"
 						ref={el => itemRefs.current[id-1] = el}
 						tabIndex={0}
