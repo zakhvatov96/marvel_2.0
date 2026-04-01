@@ -39,13 +39,15 @@ const CharInfo = (props) => {
 	const errorMessage = error ? <ErrorMessage /> : null;
 	const spinner = loading ? <Spinner /> : null;
 	const content = !(loading || error || !char) ? <View char={char}/> : null;
+	
+	
 	return (
-	<div className="char__info">
-		{skeleton}
-		{errorMessage}
-		{spinner}
-		{content}
-	</div>
+		<div className="char__info">
+			{skeleton}
+			{errorMessage}
+			{spinner}
+			{content}
+		</div>
 );
 
 	
