@@ -10,29 +10,29 @@ import xmen from '../../resources/img/x-men.png';
 
 import './singleComicPage.scss';
 
-const SingleComicPage = () => {
-  const { comicId } = useParams();
+const SinglePage = (props) => {
+  const { itemId } = useParams();
 
-  const [comic, setComic] = useState();
+  const [item, setItem] = useState();
 
-  const { loading, error, getComic, clearError } = useMarvelService();
+  const { loading, error, clearError } = useMarvelService();
 
   useEffect(() => {
-    updateComic();
-  }, [comicId]);
+    updateItem();
+  }, [itemId]);
 
-  const onComicLoaded = (comic) => {
-    setComic(comic);
+  const onItemLoaded = (item) => {
+    setItem(item);
   };
 
-  const updateComic = () => {
+  const updateItem = () => {
     clearError();
-    getComic(comicId).then(onComicLoaded);
+    props.getItem(itemId).then(onItemLoaded);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !comic) ? <View comic={comic} /> : null;
+  const content = !(loading || error || !item) ? <View item={item} /> : null;
 
   return (
     <>
@@ -46,10 +46,17 @@ const SingleComicPage = () => {
   );
 };
 
-const View = ({ comic }) => {
-  const { name, description, thumbnail, pages, lang, price } = comic;
+const View = ({ item }) => {
+  const {
+    name,
+    description,
+    thumbnail,
+    pages = null,
+    lang = null,
+    price = null,
+  } = item;
 
-  return (
+  return pages ? (
     <>
       <div className='single__grid'>
         <img src={thumbnail} alt={name} className='single__img' />
@@ -65,7 +72,17 @@ const View = ({ comic }) => {
         </Link>
       </div>
     </>
+  ) : (
+    <>
+      <div className='single__grid'>
+        <img src={thumbnail} alt={name} className='single__img' />
+        <div className='single__info'>
+          <h2 className='single__title'>{name}</h2>
+          <p className='single__descr'>{description}</p>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default SingleComicPage;
+export default SinglePage;

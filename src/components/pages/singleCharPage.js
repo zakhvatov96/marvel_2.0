@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AppBanner from '../appBanner/appBanner';
 
 import useMarvelService from '../../services/MarvelService';
@@ -10,29 +10,29 @@ import xmen from '../../resources/img/x-men.png';
 
 import './singleComicPage.scss';
 
-const SingleComicPage = () => {
-  const { comicId } = useParams();
+const SingleCharPage = () => {
+  const { charId } = useParams();
 
-  const [comic, setComic] = useState();
+  const [char, setChar] = useState();
 
-  const { loading, error, getComic, clearError } = useMarvelService();
+  const { loading, error, getCharacter, clearError } = useMarvelService();
 
   useEffect(() => {
-    updateComic();
-  }, [comicId]);
+    updateChar();
+  }, [charId]);
 
-  const onComicLoaded = (comic) => {
-    setComic(comic);
+  const onCharLoaded = (char) => {
+    setChar(char);
   };
 
-  const updateComic = () => {
+  const updateChar = () => {
     clearError();
-    getComic(comicId).then(onComicLoaded);
+    getCharacter(charId).then(onCharLoaded);
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !comic) ? <View comic={comic} /> : null;
+  const content = !(loading || error || !char) ? <View char={char} /> : null;
 
   return (
     <>
@@ -46,8 +46,8 @@ const SingleComicPage = () => {
   );
 };
 
-const View = ({ comic }) => {
-  const { name, description, thumbnail, pages, lang, price } = comic;
+const View = ({ char }) => {
+  const { name, description, thumbnail } = char;
 
   return (
     <>
@@ -56,16 +56,10 @@ const View = ({ comic }) => {
         <div className='single__info'>
           <h2 className='single__title'>{name}</h2>
           <p className='single__descr'>{description}</p>
-          <div className='single__pages'>{pages} pages</div>
-          <div className='single__lang'>Language: {lang}</div>
-          <div className='single__price'>{price}$</div>
         </div>
-        <Link to={'/comics'} className='single__back'>
-          Back to all
-        </Link>
       </div>
     </>
   );
 };
 
-export default SingleComicPage;
+export default SingleCharPage;
