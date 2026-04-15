@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
 import AppBanner from '../appBanner/appBanner';
 
 import useMarvelService from '../../services/MarvelService';

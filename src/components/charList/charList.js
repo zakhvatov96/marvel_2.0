@@ -40,6 +40,7 @@ const CharList = (props) => {
   };
 
   const onCharLoaded = (newChar) => {
+    
     let ended = false;
     if (newChar.length < 9) {
       ended = true;

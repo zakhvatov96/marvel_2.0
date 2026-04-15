@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
 import AppBanner from '../appBanner/appBanner';
 
 import useMarvelService from '../../services/MarvelService';
@@ -58,6 +60,10 @@ const View = ({ item }) => {
 
   return pages ? (
     <>
+      <Helmet>
+        <meta name='description' content={`${name} comics book`} />
+        <title>{name}</title>
+      </Helmet>
       <div className='single__grid'>
         <img src={thumbnail} alt={name} className='single__img' />
         <div className='single__info'>
@@ -74,6 +80,10 @@ const View = ({ item }) => {
     </>
   ) : (
     <>
+      <Helmet>
+        <meta name='description' content={`${name} character`} />
+        <title>{name}</title>
+      </Helmet>
       <div className='single__grid'>
         <img src={thumbnail} alt={name} className='single__img' />
         <div className='single__info'>
