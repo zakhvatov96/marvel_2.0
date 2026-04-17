@@ -3,10 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import AppBanner from '../appBanner/appBanner';
-
 import useMarvelService from '../../services/MarvelService';
-import ErrorMessage from '../errorMessage/errorMessage';
-import Spinner from '../spinner/Spinner';
+
+import setContent from '../../utils/setContent';
 
 import xmen from '../../resources/img/x-men.png';
 
@@ -17,7 +16,8 @@ const SinglePage = (props) => {
 
   const [item, setItem] = useState();
 
-  const { loading, error, clearError } = useMarvelService();
+  const { loading, error, clearError, process, setProcess } =
+    useMarvelService();
 
   useEffect(() => {
     updateItem();
@@ -29,26 +29,21 @@ const SinglePage = (props) => {
 
   const updateItem = () => {
     clearError();
-    props.getItem(itemId).then(onItemLoaded);
+    props
+      .getItem(itemId)
+      .then(onItemLoaded)
+      .then(() => setProcess('confirmed'));
   };
-
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error || !item) ? <View item={item} /> : null;
 
   return (
     <>
       <AppBanner />
-      <div className='single'>
-        {errorMessage}
-        {spinner}
-        {content}
-      </div>
+      <div className='single'>{setContent(process, View, item)}</div>
     </>
   );
 };
 
-const View = ({ item }) => {
+const View = ({ data }) => {
   const {
     name,
     description,
@@ -56,7 +51,7 @@ const View = ({ item }) => {
     pages = null,
     lang = null,
     price = null,
-  } = item;
+  } = data;
 
   return pages ? (
     <>
